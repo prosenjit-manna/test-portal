@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Task, TeamMember } from '@/types';
-import { Calendar, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Search, Filter, X } from 'lucide-react';
+import { Calendar, ChevronLeft, ChevronRight, Search, Filter, X } from 'lucide-react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import ResizableTaskBar from './ResizableTaskBar';
 
 type ViewType = 'day' | 'week' | 'month' | 'quarter';
 
@@ -30,8 +33,6 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
   const [currentView, setCurrentView] = useState<ViewType>('week');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragTaskId, setDragTaskId] = useState<string | null>(null);
   
   // Search and Filter states
   const [searchTerm, setSearchTerm] = useState('');
@@ -190,32 +191,9 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
     setCurrentDate(newDate);
   };
 
-  // Handle task drag
-  const handleTaskDrag = (taskId: string, event: React.MouseEvent) => {
-    event.preventDefault();
-    setIsDragging(true);
-    setDragTaskId(taskId);
-    
-    // Add mouse move and mouse up listeners
-    const handleMouseMove = (e: MouseEvent) => {
-      // Implementation for drag logic would go here
-      // This is a simplified version - in a real implementation,
-      // you'd calculate new dates based on mouse position
-    };
-    
-    const handleMouseUp = () => {
-      setIsDragging(false);
-      setDragTaskId(null);
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-    
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
-
   return (
-    <div className="w-full h-full bg-white">
+    <DndProvider backend={HTML5Backend}>
+      <div className="w-full h-full bg-white">
       {/* Header Controls */}
       <div className="flex flex-col space-y-4 p-4 border-b bg-gray-50">
         {/* Top Row - Title and View Controls */}
@@ -424,7 +402,7 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
         </div>
 
         {/* Timeline Area */}
-        <div className="flex-1 overflow-x-auto">
+        <div className="flex-1 overflow-x-auto" data-timeline-container>
           {/* Timeline Header */}
           <div className="h-12 bg-gray-100 border-b flex">
             {timelineColumns.map((date, index) => (
@@ -457,39 +435,28 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
                 const position = getTaskPosition(task);
                 const assignee = getTeamMember(task.assignee);
                 
+                // Calculate container width for pixel calculations
+                const totalDays = Math.ceil((timelineEnd.getTime() - timelineStart.getTime()) / (1000 * 60 * 60 * 24));
+                const containerWidth = 800; // Approximate width, will be refined by component
+                
                 return (
                   <div
                     key={task.id}
                     className="relative mb-2"
                     style={{ height: '40px' }}
                   >
-                    <div
-                      className={`absolute top-0 h-8 flex items-center px-2 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                        getTaskColor(task.status, task.priority)
-                      } ${isDragging && dragTaskId === task.id ? 'opacity-80 scale-105' : ''} ${
-                        selectedTask === task.id ? 'ring-2 ring-blue-500 ring-offset-1' : ''
-                      }`}
-                      style={{
-                        left: `${position.left}%`,
-                        width: `${position.width}%`,
-                        minWidth: '60px'
-                      }}
-                      onMouseDown={(e) => handleTaskDrag(task.id, e)}
-                      onClick={() => setSelectedTask(selectedTask === task.id ? null : task.id)}
-                      title={`${task.name} - ${assignee?.name || 'Unassigned'} (${task.progress}%)`}
-                    >
-                      <span className="text-xs font-medium truncate">
-                        {task.name}
-                      </span>
-                      
-                      {/* Progress Bar */}
-                      <div className="absolute bottom-0 left-0 h-1 bg-black bg-opacity-20 rounded-b">
-                        <div
-                          className="h-full bg-white bg-opacity-50 rounded-b transition-all duration-300"
-                          style={{ width: `${task.progress}%` }}
-                        />
-                      </div>
-                    </div>
+                    <ResizableTaskBar
+                      task={task}
+                      position={position}
+                      assignee={assignee}
+                      timelineStart={timelineStart}
+                      timelineEnd={timelineEnd}
+                      containerWidth={containerWidth}
+                      getTaskColor={getTaskColor}
+                      onTaskUpdate={onTaskUpdate || (() => {})}
+                      isSelected={selectedTask === task.id}
+                      onTaskSelect={() => setSelectedTask(selectedTask === task.id ? null : task.id)}
+                    />
                   </div>
                 );
               })}
@@ -572,6 +539,7 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
           </div>
         ) : null;
       })()}
-    </div>
+      </div>
+    </DndProvider>
   );
 }

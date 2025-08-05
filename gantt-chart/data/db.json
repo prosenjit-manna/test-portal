@@ -82,8 +82,8 @@
       "id": "94561b30-a526-490a-aaf6-1c96bab0a0cb",
       "name": "UI/UX Design & Wireframes",
       "description": "Create user interface designs, wireframes, and user experience flow",
-      "startDate": "2024-01-15",
-      "endDate": "2024-02-15",
+      "startDate": "2024-04-08",
+      "endDate": "2024-05-07",
       "status": "completed",
       "assignee": "43b3b738-2481-44ae-8e68-9d640bea4ca9",
       "dependencies": [],
@@ -91,13 +91,13 @@
       "priority": "medium",
       "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
       "createdAt": "2025-08-05T10:35:56.428Z",
-      "updatedAt": "2025-08-05T10:35:56.428Z"
+      "updatedAt": "2025-08-05T11:36:05.479Z"
     },
     {
       "id": "8fe9f22c-f082-4509-a1d9-e3f27bb530e7",
       "name": "Frontend Development",
       "description": "Implement the user interface using React and modern frontend technologies",
-      "startDate": "2024-02-01",
+      "startDate": "2024-02-22",
       "endDate": "2024-04-15",
       "status": "in-progress",
       "assignee": "53d391aa-7984-4a36-af4b-57e54aaa77ac",
@@ -106,7 +106,7 @@
       "priority": "high",
       "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
       "createdAt": "2025-08-05T10:35:56.428Z",
-      "updatedAt": "2025-08-05T10:35:56.428Z"
+      "updatedAt": "2025-08-05T11:37:38.065Z"
     },
     {
       "id": "57d980a2-9c7a-421c-be0d-c4a1f8a6409a",
@@ -142,8 +142,8 @@
       "id": "0ff87144-8ff8-4c0c-87ba-a66b67507b14",
       "name": "Testing & Quality Assurance",
       "description": "Comprehensive testing including unit tests, integration tests, and user acceptance testing",
-      "startDate": "2024-04-01",
-      "endDate": "2024-05-15",
+      "startDate": "2024-05-03",
+      "endDate": "2024-05-12",
       "status": "not-started",
       "assignee": "3b027da9-fa3b-49f9-9285-e0c86db0d507",
       "dependencies": [],
@@ -151,7 +151,7 @@
       "priority": "medium",
       "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
       "createdAt": "2025-08-05T10:35:56.428Z",
-      "updatedAt": "2025-08-05T10:35:56.428Z"
+      "updatedAt": "2025-08-05T11:29:32.872Z"
     },
     {
       "id": "6d3f9e06-9606-4e80-a2da-49381f4cef89",
@@ -242,6 +242,36 @@
       "projectId": "8cbc6d21-e916-4d76-a9a6-b9cf6c56206a",
       "createdAt": "2025-08-05T10:35:56.428Z",
       "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "name": "Test",
+      "description": "",
+      "startDate": "2025-08-04",
+      "endDate": "2025-08-15",
+      "assignee": "53d391aa-7984-4a36-af4b-57e54aaa77ac",
+      "priority": "medium",
+      "status": "not-started",
+      "progress": 0,
+      "projectId": "23162b89-e2aa-4014-8b2b-1dfd2001db48",
+      "dependencies": [],
+      "id": "ce30741f-64e9-4405-a1e7-a342742580b2",
+      "createdAt": "2025-08-05T11:38:13.736Z",
+      "updatedAt": "2025-08-05T11:38:30.522Z"
+    },
+    {
+      "name": "Test 2",
+      "description": "",
+      "startDate": "2025-08-03",
+      "endDate": "2025-08-20",
+      "assignee": "5dc74921-ca95-4a38-9ee3-a3bf21753c14",
+      "priority": "medium",
+      "status": "not-started",
+      "progress": 0,
+      "projectId": "23162b89-e2aa-4014-8b2b-1dfd2001db48",
+      "dependencies": [],
+      "id": "7ecb6941-09af-4439-9145-f49747ab7a33",
+      "createdAt": "2025-08-05T11:38:57.132Z",
+      "updatedAt": "2025-08-05T11:38:57.132Z"
     }
   ],
   "teamMembers": [

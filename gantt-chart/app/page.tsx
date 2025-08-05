@@ -147,32 +147,34 @@ export default function Home() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center h-auto lg:h-16 py-4 lg:py-0 space-y-4 lg:space-y-0">
             <div className="flex items-center">
               <BarChart3 className="h-8 w-8 text-blue-600 mr-3" />
               <h1 className="text-2xl font-bold text-gray-900">Project Gantt</h1>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
               {/* Project Selector */}
-              <select
-                value={selectedProject}
-                onChange={(e) => setSelectedProject(e.target.value)}
-                className={selectClasses.base}
-              >
-                <option value="">Select Project</option>
-                {projects.map(project => (
-                  <option key={project.id} value={project.id}>
-                    {project.name}
-                  </option>
-                ))}
-              </select>
+              <div className="w-full sm:w-auto">
+                <select
+                  value={selectedProject}
+                  onChange={(e) => setSelectedProject(e.target.value)}
+                  className={`${selectClasses.base} w-full sm:w-auto min-w-48`}
+                >
+                  <option value="">Select Project</option>
+                  {projects.map(project => (
+                    <option key={project.id} value={project.id}>
+                      {project.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               {/* View Toggle */}
-              <div className="flex bg-gray-100 rounded-lg p-1">
+              <div className="flex bg-gray-100 rounded-lg p-1 w-full sm:w-auto">
                 <button
                   onClick={() => setCurrentView('gantt')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none ${
                     currentView === 'gantt'
                       ? 'bg-white text-blue-600 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900'
@@ -183,7 +185,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => setCurrentView('dashboard')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none ${
                     currentView === 'dashboard'
                       ? 'bg-white text-blue-600 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900'
@@ -194,7 +196,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => setCurrentView('settings')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none ${
                     currentView === 'settings'
                       ? 'bg-white text-blue-600 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900'
@@ -206,14 +208,14 @@ export default function Home() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 w-full sm:w-auto">
                 {/* Create Project Button */}
                 <button
                   onClick={() => setShowProjectForm(true)}
-                  className="flex items-center px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className={`${buttonClasses.success} flex items-center justify-center flex-1 sm:flex-none`}
                 >
-                  <FolderPlus className="h-4 w-4 mr-1" />
-                  Project
+                  <FolderPlus className="h-4 w-4 mr-2" />
+                  <span className="hidden sm:inline">New </span>Project
                 </button>
 
                 {/* Add Task Button */}
@@ -221,7 +223,7 @@ export default function Home() {
                   <button
                     onClick={() => setShowTaskForm(true)}
                     disabled={!selectedProject}
-                    className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className={`${buttonClasses.primary} flex items-center justify-center flex-1 sm:flex-none`}
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Task

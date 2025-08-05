@@ -154,11 +154,6 @@ export default function Home() {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center h-auto lg:h-16 py-4 lg:py-0 space-y-4 lg:space-y-0">
-            <div className="flex items-center">
-              <BarChart3 className="h-8 w-8 text-blue-600 mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">Project Gantt</h1>
-            </div>
-
             <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
               {/* Project Selector */}
               <div className="w-full sm:w-auto">

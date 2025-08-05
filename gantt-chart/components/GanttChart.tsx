@@ -38,6 +38,7 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
   // Search and Filter states
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<Task['status'] | 'all'>('all');
+  const [assigneeFilter, setAssigneeFilter] = useState<string | 'all'>('all');
   const [showFilters, setShowFilters] = useState(false);
   
   // Sorting states
@@ -58,8 +59,10 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
         task.description?.toLowerCase().includes(searchTerm.toLowerCase());
       
       const matchesStatus = statusFilter === 'all' || task.status === statusFilter;
+      const matchesAssignee = assigneeFilter === 'all' || 
+        (assigneeFilter === 'unassigned' ? !teamMembers.some(m => m.id === task.assignee) : task.assignee === assigneeFilter);
       
-      return matchesSearch && matchesStatus;
+      return matchesSearch && matchesStatus && matchesAssignee;
     });
 
     // Apply sorting
@@ -103,7 +106,7 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
     });
 
     return filtered;
-  }, [tasks, searchTerm, statusFilter, sortBy, sortOrder]);
+  }, [tasks, searchTerm, statusFilter, assigneeFilter, sortBy, sortOrder]);
 
   // Calculate timeline range based on current view
   const { timelineStart, timelineEnd, timelineColumns } = useMemo(() => {
@@ -209,6 +212,7 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
   const clearFilters = () => {
     setSearchTerm('');
     setStatusFilter('all');
+    setAssigneeFilter('all');
   };
 
   // Handle sorting
@@ -247,6 +251,22 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
     { value: 'in-progress', label: 'In Progress', count: tasks.filter(t => t.status === 'in-progress').length },
     { value: 'completed', label: 'Completed', count: tasks.filter(t => t.status === 'completed').length },
     { value: 'overdue', label: 'Overdue', count: tasks.filter(t => t.status === 'overdue').length },
+  ];
+
+  // Get assignee options for filter
+  const assigneeOptions: { value: string | 'all', label: string, count: number }[] = [
+    { value: 'all', label: 'All Assignees', count: tasks.length },
+    ...teamMembers.map(member => ({
+      value: member.id,
+      label: member.name,
+      count: tasks.filter(t => t.assignee === member.id).length
+    })),
+    // Add unassigned option if there are any unassigned tasks
+    ...(tasks.some(t => !teamMembers.some(m => m.id === t.assignee)) ? [{
+      value: 'unassigned',
+      label: 'Unassigned',
+      count: tasks.filter(t => !teamMembers.some(m => m.id === t.assignee)).length
+    }] : [])
   ];
 
   // Handle view navigation
@@ -354,16 +374,16 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
             <button
               onClick={() => setShowFilters(!showFilters)}
               className={`flex items-center px-3 py-2 text-sm font-medium rounded-md border transition-colors ${
-                showFilters || statusFilter !== 'all'
+                showFilters || statusFilter !== 'all' || assigneeFilter !== 'all'
                   ? 'bg-blue-50 text-blue-700 border-blue-200'
                   : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
               }`}
             >
               <Filter className="h-4 w-4 mr-2" />
               Filters
-              {statusFilter !== 'all' && (
+              {(statusFilter !== 'all' || assigneeFilter !== 'all') && (
                 <span className="ml-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
-                  1
+                  {(statusFilter !== 'all' ? 1 : 0) + (assigneeFilter !== 'all' ? 1 : 0)}
                 </span>
               )}
             </button>
@@ -371,7 +391,7 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
 
 
             {/* Clear Filters */}
-            {(searchTerm || statusFilter !== 'all') && (
+            {(searchTerm || statusFilter !== 'all' || assigneeFilter !== 'all') && (
               <button
                 onClick={clearFilters}
                 className="text-sm text-gray-500 hover:text-gray-700 underline"
@@ -393,25 +413,51 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
         {/* Filter Options */}
         {showFilters && (
           <div className="bg-white border rounded-lg p-4 shadow-sm">
-            <div className="space-y-3">
-              <h4 className="text-sm font-medium text-gray-900">Status</h4>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-                {statusOptions.map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => setStatusFilter(option.value)}
-                    className={`px-3 py-2 text-sm font-medium rounded-md border transition-colors text-left ${
-                      statusFilter === option.value
-                        ? 'bg-blue-50 text-blue-700 border-blue-200'
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <span>{option.label}</span>
-                      <span className="text-xs text-gray-500">({option.count})</span>
-                    </div>
-                  </button>
-                ))}
+            <div className="space-y-6">
+              {/* Status Filter */}
+              <div>
+                <h4 className="text-sm font-medium text-gray-900 mb-3">Status</h4>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                  {statusOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setStatusFilter(option.value)}
+                      className={`px-3 py-2 text-sm font-medium rounded-md border transition-colors text-left ${
+                        statusFilter === option.value
+                          ? 'bg-blue-50 text-blue-700 border-blue-200'
+                          : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <span>{option.label}</span>
+                        <span className="text-xs text-gray-500">({option.count})</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Assignee Filter */}
+              <div>
+                <h4 className="text-sm font-medium text-gray-900 mb-3">Assignee</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  {assigneeOptions.filter(option => option.count > 0).map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setAssigneeFilter(option.value)}
+                      className={`px-3 py-2 text-sm font-medium rounded-md border transition-colors text-left ${
+                        assigneeFilter === option.value
+                          ? 'bg-blue-50 text-blue-700 border-blue-200'
+                          : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <span className="truncate">{option.label}</span>
+                        <span className="text-xs text-gray-500 ml-1">({option.count})</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -465,12 +511,12 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
             {filteredTasks.length === 0 ? (
               <div className="p-4 text-center text-gray-500">
                 <div className="text-sm">
-                  {searchTerm || statusFilter !== 'all' 
+                  {searchTerm || statusFilter !== 'all' || assigneeFilter !== 'all'
                     ? 'No tasks match your filters'
                     : 'No tasks available'
                   }
                 </div>
-                {(searchTerm || statusFilter !== 'all') && (
+                {(searchTerm || statusFilter !== 'all' || assigneeFilter !== 'all') && (
                   <button
                     onClick={clearFilters}
                     className="mt-2 text-sm text-blue-600 hover:text-blue-700 underline"

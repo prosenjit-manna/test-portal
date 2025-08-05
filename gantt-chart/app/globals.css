@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 249, 250, 251;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 17, 24, 39;
+    --background-end-rgb: 31, 41, 55;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+}
+
+/* Fix input field readability */
+input, textarea, select {
+  background-color: white !important;
+  color: #1f2937 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  background-color: white !important;
+  color: #1f2937 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #9ca3af !important;
+  opacity: 1 !important;
+}
+
+/* Dark mode input fixes */
+@media (prefers-color-scheme: dark) {
+  input, textarea, select {
+    background-color: #374151 !important;
+    color: #f9fafb !important;
+    border-color: #4b5563 !important;
+  }
+  
+  input:focus, textarea:focus, select:focus {
+    background-color: #374151 !important;
+    color: #f9fafb !important;
+    border-color: #60a5fa !important;
+  }
+  
+  input::placeholder, textarea::placeholder {
+    color: #9ca3af !important;
+  }
+}
+
+.gantt-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  border: 1px solid #e5e7eb;
+}
+
+.gantt-header {
+  background-color: #f9fafb;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.gantt-row {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.gantt-cell {
+  padding: 8px 12px;
+  border-right: 1px solid #f3f4f6;
+}
+
+.gantt-bar {
+  height: 20px;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.gantt-bar:hover {
+  opacity: 0.8;
+}
+
+.gantt-timeline {
+  position: relative;
+  min-height: 40px;
+}
+
+.status-not-started {
+  background-color: #e5e7eb;
+}
+
+.status-in-progress {
+  background-color: #3b82f6;
+}
+
+.status-completed {
+  background-color: #10b981;
+}
+
+.status-overdue {
+  background-color: #ef4444;
+}

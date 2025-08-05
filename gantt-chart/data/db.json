@@ -1,0 +1,279 @@
+{
+  "projects": [
+    {
+      "id": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "name": "E-commerce Platform Development",
+      "description": "Complete overhaul of the company e-commerce platform with modern tech stack",
+      "startDate": "2024-01-01",
+      "endDate": "2024-06-30",
+      "status": "active",
+      "teamMembers": [
+        "47578788-a31e-4ef0-9e15-808b5fd28d56",
+        "53d391aa-7984-4a36-af4b-57e54aaa77ac",
+        "43b3b738-2481-44ae-8e68-9d640bea4ca9",
+        "5dc74921-ca95-4a38-9ee3-a3bf21753c14",
+        "3b027da9-fa3b-49f9-9285-e0c86db0d507"
+      ],
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "8cbc6d21-e916-4d76-a9a6-b9cf6c56206a",
+      "name": "Mobile App Launch",
+      "description": "Development and launch of iOS and Android mobile applications",
+      "startDate": "2024-03-01",
+      "endDate": "2024-09-30",
+      "status": "active",
+      "teamMembers": [
+        "47578788-a31e-4ef0-9e15-808b5fd28d56",
+        "53d391aa-7984-4a36-af4b-57e54aaa77ac",
+        "43b3b738-2481-44ae-8e68-9d640bea4ca9"
+      ],
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "23162b89-e2aa-4014-8b2b-1dfd2001db48",
+      "name": "Data Migration Project",
+      "description": "Migrate legacy data to new cloud infrastructure",
+      "startDate": "2024-02-15",
+      "endDate": "2024-05-15",
+      "status": "completed",
+      "teamMembers": [
+        "53d391aa-7984-4a36-af4b-57e54aaa77ac",
+        "5dc74921-ca95-4a38-9ee3-a3bf21753c14"
+      ],
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "e1a6e8fc-8c5b-4b3b-9d27-8d3211f0a156",
+      "name": "Project Planning & Requirements",
+      "description": "Define project scope, requirements, and create project roadmap",
+      "startDate": "2024-01-01",
+      "endDate": "2024-01-15",
+      "status": "completed",
+      "assignee": "47578788-a31e-4ef0-9e15-808b5fd28d56",
+      "dependencies": [],
+      "progress": 100,
+      "priority": "high",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "48c4233a-81f6-498e-b4ae-d11413b6d1eb",
+      "name": "System Architecture Design",
+      "description": "Design the overall system architecture and technology stack",
+      "startDate": "2024-01-10",
+      "endDate": "2024-01-25",
+      "status": "completed",
+      "assignee": "53d391aa-7984-4a36-af4b-57e54aaa77ac",
+      "dependencies": [],
+      "progress": 100,
+      "priority": "high",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "94561b30-a526-490a-aaf6-1c96bab0a0cb",
+      "name": "UI/UX Design & Wireframes",
+      "description": "Create user interface designs, wireframes, and user experience flow",
+      "startDate": "2024-01-15",
+      "endDate": "2024-02-15",
+      "status": "completed",
+      "assignee": "43b3b738-2481-44ae-8e68-9d640bea4ca9",
+      "dependencies": [],
+      "progress": 100,
+      "priority": "medium",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "8fe9f22c-f082-4509-a1d9-e3f27bb530e7",
+      "name": "Frontend Development",
+      "description": "Implement the user interface using React and modern frontend technologies",
+      "startDate": "2024-02-01",
+      "endDate": "2024-04-15",
+      "status": "in-progress",
+      "assignee": "53d391aa-7984-4a36-af4b-57e54aaa77ac",
+      "dependencies": [],
+      "progress": 65,
+      "priority": "high",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "57d980a2-9c7a-421c-be0d-c4a1f8a6409a",
+      "name": "Backend API Development",
+      "description": "Develop RESTful APIs and database integration",
+      "startDate": "2024-02-15",
+      "endDate": "2024-05-01",
+      "status": "in-progress",
+      "assignee": "5dc74921-ca95-4a38-9ee3-a3bf21753c14",
+      "dependencies": [],
+      "progress": 45,
+      "priority": "high",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "a717842d-a450-4509-9052-7a68623d991d",
+      "name": "Payment Integration",
+      "description": "Integrate payment gateways and implement secure payment processing",
+      "startDate": "2024-03-01",
+      "endDate": "2024-04-01",
+      "status": "in-progress",
+      "assignee": "5dc74921-ca95-4a38-9ee3-a3bf21753c14",
+      "dependencies": [],
+      "progress": 25,
+      "priority": "high",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "0ff87144-8ff8-4c0c-87ba-a66b67507b14",
+      "name": "Testing & Quality Assurance",
+      "description": "Comprehensive testing including unit tests, integration tests, and user acceptance testing",
+      "startDate": "2024-04-01",
+      "endDate": "2024-05-15",
+      "status": "not-started",
+      "assignee": "3b027da9-fa3b-49f9-9285-e0c86db0d507",
+      "dependencies": [],
+      "progress": 0,
+      "priority": "medium",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "6d3f9e06-9606-4e80-a2da-49381f4cef89",
+      "name": "Performance Optimization",
+      "description": "Optimize application performance, loading times, and user experience",
+      "startDate": "2024-05-01",
+      "endDate": "2024-05-30",
+      "status": "not-started",
+      "assignee": "53d391aa-7984-4a36-af4b-57e54aaa77ac",
+      "dependencies": [],
+      "progress": 0,
+      "priority": "medium",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "ebe574f0-e498-4563-b4be-f17e60e8a7f6",
+      "name": "Security Audit & Implementation",
+      "description": "Conduct security audit and implement necessary security measures",
+      "startDate": "2024-05-15",
+      "endDate": "2024-06-15",
+      "status": "not-started",
+      "assignee": "5dc74921-ca95-4a38-9ee3-a3bf21753c14",
+      "dependencies": [],
+      "progress": 0,
+      "priority": "high",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "f693f61a-e217-4c3c-a517-38489d5b9602",
+      "name": "Deployment & Launch",
+      "description": "Deploy to production environment and coordinate launch activities",
+      "startDate": "2024-06-15",
+      "endDate": "2024-06-30",
+      "status": "not-started",
+      "assignee": "47578788-a31e-4ef0-9e15-808b5fd28d56",
+      "dependencies": [],
+      "progress": 0,
+      "priority": "high",
+      "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "6dae7301-137a-467c-b662-106a023d9071",
+      "name": "Mobile App Concept & Planning",
+      "description": "Define mobile app features, target platforms, and development strategy",
+      "startDate": "2024-03-01",
+      "endDate": "2024-03-15",
+      "status": "completed",
+      "assignee": "47578788-a31e-4ef0-9e15-808b5fd28d56",
+      "dependencies": [],
+      "progress": 100,
+      "priority": "high",
+      "projectId": "8cbc6d21-e916-4d76-a9a6-b9cf6c56206a",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "265cd4fd-219a-40a3-9470-66403a29e4d3",
+      "name": "Mobile UI/UX Design",
+      "description": "Create mobile-specific designs and user experience flows",
+      "startDate": "2024-03-15",
+      "endDate": "2024-04-30",
+      "status": "in-progress",
+      "assignee": "43b3b738-2481-44ae-8e68-9d640bea4ca9",
+      "dependencies": [],
+      "progress": 70,
+      "priority": "medium",
+      "projectId": "8cbc6d21-e916-4d76-a9a6-b9cf6c56206a",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    },
+    {
+      "id": "0ef9161c-598e-4534-9668-e71a053b44f9",
+      "name": "React Native Development",
+      "description": "Develop cross-platform mobile application using React Native",
+      "startDate": "2024-05-01",
+      "endDate": "2024-08-15",
+      "status": "not-started",
+      "assignee": "53d391aa-7984-4a36-af4b-57e54aaa77ac",
+      "dependencies": [],
+      "progress": 0,
+      "priority": "high",
+      "projectId": "8cbc6d21-e916-4d76-a9a6-b9cf6c56206a",
+      "createdAt": "2025-08-05T10:35:56.428Z",
+      "updatedAt": "2025-08-05T10:35:56.428Z"
+    }
+  ],
+  "teamMembers": [
+    {
+      "id": "47578788-a31e-4ef0-9e15-808b5fd28d56",
+      "name": "Alice Johnson",
+      "email": "alice@company.com",
+      "role": "Project Manager"
+    },
+    {
+      "id": "53d391aa-7984-4a36-af4b-57e54aaa77ac",
+      "name": "Bob Smith",
+      "email": "bob@company.com",
+      "role": "Senior Developer"
+    },
+    {
+      "id": "43b3b738-2481-44ae-8e68-9d640bea4ca9",
+      "name": "Carol Williams",
+      "email": "carol@company.com",
+      "role": "UI/UX Designer"
+    },
+    {
+      "id": "5dc74921-ca95-4a38-9ee3-a3bf21753c14",
+      "name": "David Brown",
+      "email": "david@company.com",
+      "role": "Backend Developer"
+    },
+    {
+      "id": "3b027da9-fa3b-49f9-9285-e0c86db0d507",
+      "name": "Eva Davis",
+      "email": "eva@company.com",
+      "role": "QA Engineer"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import ResizableTaskBar from './ResizableTaskBar';
 import TaskDetailsModal from './TaskDetailsModal';
 
-type ViewType = 'day' | 'week' | 'month' | 'quarter';
+type ViewType = 'day' | 'week' | 'month' | 'quarter' | 'year';
 
 interface GanttChartProps {
   tasks: Task[];
@@ -27,7 +27,8 @@ const timelineConfigs: Record<ViewType, TimelineConfig> = {
   day: { unit: 'day', format: 'MMM dd', step: 1, subGridLines: 4 },
   week: { unit: 'week', format: 'MMM dd', step: 7, subGridLines: 7 },
   month: { unit: 'month', format: 'MMM yyyy', step: 30, subGridLines: 4 },
-  quarter: { unit: 'quarter', format: 'QQQ yyyy', step: 90, subGridLines: 3 }
+  quarter: { unit: 'quarter', format: 'QQQ yyyy', step: 90, subGridLines: 3 },
+  year: { unit: 'year', format: 'yyyy', step: 365, subGridLines: 12 }
 };
 
 export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttChartProps) {
@@ -135,6 +136,12 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
         end.setMonth(quarterStart + 9);
         end.setDate(1);
         break;
+      case 'year':
+        start.setFullYear(start.getFullYear() - 1);
+        start.setMonth(0, 1);
+        end.setFullYear(end.getFullYear() + 2);
+        end.setMonth(11, 31);
+        break;
     }
 
     const columns: Date[] = [];
@@ -163,6 +170,8 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
       case 'quarter':
         const quarter = Math.floor(date.getMonth() / 3) + 1;
         return `Q${quarter} ${date.getFullYear()}`;
+      case 'year':
+        return date.getFullYear().toString();
       default:
         return date.toLocaleDateString();
     }
@@ -286,6 +295,9 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
       case 'quarter':
         newDate.setMonth(newDate.getMonth() + (direction === 'next' ? 12 : -12));
         break;
+      case 'year':
+        newDate.setFullYear(newDate.getFullYear() + (direction === 'next' ? 3 : -3));
+        break;
     }
     
     setCurrentDate(newDate);
@@ -306,7 +318,7 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
             
             {/* View Type Selector */}
             <div className="flex bg-white rounded-lg border">
-              {(['day', 'week', 'month', 'quarter'] as ViewType[]).map((view) => (
+              {(['day', 'week', 'month', 'quarter', 'year'] as ViewType[]).map((view) => (
                 <button
                   key={view}
                   onClick={() => setCurrentView(view)}

@@ -7,9 +7,10 @@ import TeamDashboard from '@/components/TeamDashboard';
 import TaskForm from '@/components/TaskForm';
 import ProjectForm from '@/components/ProjectForm';
 import ProjectManager from '@/components/ProjectManager';
+import ProjectMembersView from '@/components/ProjectMembersView';
 import DatabaseManager from '@/components/DatabaseManager';
 import TeamManager from '@/components/TeamManager';
-import { Plus, BarChart3, Users, Calendar, Menu, Settings, FolderPlus, Folder } from 'lucide-react';
+import { Plus, BarChart3, Users, Calendar, Menu, Settings, FolderPlus, Folder, UserCheck } from 'lucide-react';
 import { selectClasses, buttonClasses } from '@/lib/styles';
 
 export default function Home() {
@@ -17,7 +18,7 @@ export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [selectedProject, setSelectedProject] = useState<string>('');
-  const [currentView, setCurrentView] = useState<'gantt' | 'dashboard' | 'projects' | 'settings'>('gantt');
+  const [currentView, setCurrentView] = useState<'gantt' | 'dashboard' | 'projects' | 'members' | 'settings'>('gantt');
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -211,6 +212,17 @@ export default function Home() {
                   Projects
                 </button>
                 <button
+                  onClick={() => setCurrentView('members')}
+                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none ${
+                    currentView === 'members'
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <UserCheck className="h-4 w-4 inline mr-1" />
+                  Members
+                </button>
+                <button
                   onClick={() => setCurrentView('settings')}
                   className={`px-3 py-1 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none ${
                     currentView === 'settings'
@@ -225,15 +237,6 @@ export default function Home() {
 
               {/* Action Buttons */}
               <div className="flex items-center space-x-3 w-full sm:w-auto">
-                {/* Create Project Button */}
-                <button
-                  onClick={() => setShowProjectForm(true)}
-                  className={`${buttonClasses.success} flex items-center justify-center flex-1 sm:flex-none`}
-                >
-                  <FolderPlus className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">New </span>Project
-                </button>
-
                 {/* Add Task Button */}
                 {currentView !== 'settings' && (
                   <button
@@ -260,6 +263,12 @@ export default function Home() {
             selectedProject={selectedProject}
             onProjectUpdate={handleProjectUpdate}
             onProjectSelect={setSelectedProject}
+          />
+        ) : currentView === 'members' ? (
+          <ProjectMembersView
+            projects={projects}
+            teamMembers={teamMembers}
+            tasks={tasks}
           />
         ) : currentView === 'settings' ? (
           <div className="space-y-6">

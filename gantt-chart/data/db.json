@@ -52,8 +52,8 @@
       "id": "e1a6e8fc-8c5b-4b3b-9d27-8d3211f0a156",
       "name": "Project Planning & Requirements",
       "description": "Define project scope, requirements, and create project roadmap",
-      "startDate": "2024-01-01",
-      "endDate": "2024-01-15",
+      "startDate": "2024-01-13",
+      "endDate": "2024-02-01",
       "status": "completed",
       "assignee": "47578788-a31e-4ef0-9e15-808b5fd28d56",
       "dependencies": [],
@@ -61,7 +61,7 @@
       "priority": "high",
       "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
       "createdAt": "2025-08-05T10:35:56.428Z",
-      "updatedAt": "2025-08-05T10:35:56.428Z"
+      "updatedAt": "2025-08-05T11:47:06.620Z"
     },
     {
       "id": "48c4233a-81f6-498e-b4ae-d11413b6d1eb",
@@ -82,8 +82,8 @@
       "id": "94561b30-a526-490a-aaf6-1c96bab0a0cb",
       "name": "UI/UX Design & Wireframes",
       "description": "Create user interface designs, wireframes, and user experience flow",
-      "startDate": "2024-04-08",
-      "endDate": "2024-05-07",
+      "startDate": "2025-04-08",
+      "endDate": "2025-05-09",
       "status": "completed",
       "assignee": "43b3b738-2481-44ae-8e68-9d640bea4ca9",
       "dependencies": [],
@@ -91,7 +91,7 @@
       "priority": "medium",
       "projectId": "8bb40b3c-8865-4e13-966a-771f99f2f433",
       "createdAt": "2025-08-05T10:35:56.428Z",
-      "updatedAt": "2025-08-05T11:36:05.479Z"
+      "updatedAt": "2025-08-05T12:21:13.489Z"
     },
     {
       "id": "8fe9f22c-f082-4509-a1d9-e3f27bb530e7",

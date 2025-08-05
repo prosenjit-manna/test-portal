@@ -12,6 +12,7 @@ interface ResizableTaskBarProps {
   getTaskColor: (status: Task['status'], priority: Task['priority']) => string;
   onTaskUpdate: (taskId: string, updates: Partial<Task>) => void;
   onTaskSelect: (taskId: string | null) => void;
+  onTaskEdit?: (task: Task) => void;
   timelineStart: Date;
   timelineEnd: Date;
   containerWidth: number;
@@ -27,6 +28,7 @@ export default function ResizableTaskBar({
   getTaskColor,
   onTaskUpdate,
   onTaskSelect,
+  onTaskEdit,
   timelineStart,
   timelineEnd,
   containerWidth
@@ -227,7 +229,8 @@ export default function ResizableTaskBar({
           minWidth: '60px'
         }}
         onClick={() => onTaskSelect(isSelected ? null : task.id)}
-        title={`${task.name} - ${assignee?.name || 'Unassigned'} (${task.progress}%)`}
+        onDoubleClick={() => onTaskEdit && onTaskEdit(task)}
+        title={`${task.name} - ${assignee?.name || 'Unassigned'} (${task.progress}%) - Double-click to edit`}
       >
         {/* Start Resize Handle */}
         <div

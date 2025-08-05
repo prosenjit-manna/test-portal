@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Task, TeamMember } from '@/types';
-import { Calendar, ChevronLeft, ChevronRight, Search, Filter, X } from 'lucide-react';
+import { Calendar, ChevronLeft, ChevronRight, Search, Filter, X, Edit } from 'lucide-react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import ResizableTaskBar from './ResizableTaskBar';
+import TaskDetailsModal from './TaskDetailsModal';
 
 type ViewType = 'day' | 'week' | 'month' | 'quarter';
 
@@ -38,6 +39,10 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<Task['status'] | 'all'>('all');
   const [showFilters, setShowFilters] = useState(false);
+  
+  // Task details modal state
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [showTaskModal, setShowTaskModal] = useState(false);
 
   const config = timelineConfigs[currentView];
 
@@ -158,6 +163,23 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
   const clearFilters = () => {
     setSearchTerm('');
     setStatusFilter('all');
+  };
+
+  // Handle task editing
+  const handleEditTask = (task: Task) => {
+    setEditingTask(task);
+    setShowTaskModal(true);
+  };
+
+  const handleCloseTaskModal = () => {
+    setShowTaskModal(false);
+    setEditingTask(null);
+  };
+
+  const handleSaveTask = async (taskId: string, updates: Partial<Task>) => {
+    if (onTaskUpdate) {
+      await onTaskUpdate(taskId, updates);
+    }
   };
 
   // Get status options for filter
@@ -367,32 +389,48 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
                 return (
                   <div
                     key={task.id}
-                    className={`p-3 border-b cursor-pointer hover:bg-gray-100 ${
+                    className={`group p-3 border-b hover:bg-gray-100 ${
                       selectedTask === task.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
                     }`}
-                    onClick={() => setSelectedTask(selectedTask === task.id ? null : task.id)}
                   >
-                    <div className="font-medium text-sm text-gray-900 truncate">
-                      {task.name}
-                      {searchTerm && task.name.toLowerCase().includes(searchTerm.toLowerCase()) && (
-                        <span className="ml-1 text-xs text-blue-600">●</span>
-                      )}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {assignee?.name || 'Unassigned'}
-                    </div>
-                    <div className="flex items-center mt-1">
-                      <div className={`text-xs px-2 py-0.5 rounded-full ${
-                        task.status === 'completed' ? 'bg-green-100 text-green-800' :
-                        task.status === 'in-progress' ? 'bg-blue-100 text-blue-800' :
-                        task.status === 'overdue' ? 'bg-red-100 text-red-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
-                        {task.status.replace('-', ' ')}
+                    <div className="flex items-start justify-between">
+                      <div 
+                        className="flex-1 cursor-pointer"
+                        onClick={() => setSelectedTask(selectedTask === task.id ? null : task.id)}
+                      >
+                        <div className="font-medium text-sm text-gray-900 truncate">
+                          {task.name}
+                          {searchTerm && task.name.toLowerCase().includes(searchTerm.toLowerCase()) && (
+                            <span className="ml-1 text-xs text-blue-600">●</span>
+                          )}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {assignee?.name || 'Unassigned'}
+                        </div>
+                        <div className="flex items-center mt-1">
+                          <div className={`text-xs px-2 py-0.5 rounded-full ${
+                            task.status === 'completed' ? 'bg-green-100 text-green-800' :
+                            task.status === 'in-progress' ? 'bg-blue-100 text-blue-800' :
+                            task.status === 'overdue' ? 'bg-red-100 text-red-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {task.status.replace('-', ' ')}
+                          </div>
+                          <div className="ml-2 text-xs text-gray-500">
+                            {task.progress}%
+                          </div>
+                        </div>
                       </div>
-                      <div className="ml-2 text-xs text-gray-500">
-                        {task.progress}%
-                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditTask(task);
+                        }}
+                        className="ml-2 p-1 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors opacity-0 group-hover:opacity-100"
+                        title="Edit task"
+                      >
+                        <Edit className="h-3 w-3" />
+                      </button>
                     </div>
                   </div>
                 );
@@ -456,6 +494,7 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
                       onTaskUpdate={onTaskUpdate || (() => {})}
                       isSelected={selectedTask === task.id}
                       onTaskSelect={() => setSelectedTask(selectedTask === task.id ? null : task.id)}
+                      onTaskEdit={handleEditTask}
                     />
                   </div>
                 );
@@ -529,16 +568,35 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
                   </div>
                 </div>
               </div>
-              <button
-                onClick={() => setSelectedTask(null)}
-                className="ml-4 text-gray-400 hover:text-gray-600"
-              >
-                ×
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => handleEditTask(task)}
+                  className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md transition-colors"
+                  title="Edit task"
+                >
+                  <Edit className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => setSelectedTask(null)}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+                  title="Close details"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </div>
         ) : null;
       })()}
+
+      {/* Task Details Modal */}
+      <TaskDetailsModal
+        task={editingTask}
+        isOpen={showTaskModal}
+        onClose={handleCloseTaskModal}
+        onSave={handleSaveTask}
+        teamMembers={teamMembers}
+      />
       </div>
     </DndProvider>
   );

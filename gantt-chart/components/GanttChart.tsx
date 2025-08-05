@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Task, TeamMember } from '@/types';
-import { Calendar, ChevronLeft, ChevronRight, Search, Filter, X, Edit } from 'lucide-react';
+import { Calendar, ChevronLeft, ChevronRight, Search, Filter, X, Edit, ArrowUp, ArrowDown } from 'lucide-react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import ResizableTaskBar from './ResizableTaskBar';
@@ -40,6 +40,10 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
   const [statusFilter, setStatusFilter] = useState<Task['status'] | 'all'>('all');
   const [showFilters, setShowFilters] = useState(false);
   
+  // Sorting states
+  const [sortBy, setSortBy] = useState<'startDate' | 'endDate' | 'name' | 'priority' | 'progress' | 'status'>('startDate');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  
   // Task details modal state
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [showTaskModal, setShowTaskModal] = useState(false);
@@ -48,7 +52,7 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
 
   // Filter and search tasks
   const filteredTasks = useMemo(() => {
-    return tasks.filter(task => {
+    let filtered = tasks.filter(task => {
       const matchesSearch = searchTerm === '' || 
         task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         task.description?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -57,7 +61,49 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
       
       return matchesSearch && matchesStatus;
     });
-  }, [tasks, searchTerm, statusFilter]);
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      let aValue: any, bValue: any;
+      
+      switch (sortBy) {
+        case 'startDate':
+          aValue = new Date(a.startDate);
+          bValue = new Date(b.startDate);
+          break;
+        case 'endDate':
+          aValue = new Date(a.endDate);
+          bValue = new Date(b.endDate);
+          break;
+        case 'name':
+          aValue = a.name.toLowerCase();
+          bValue = b.name.toLowerCase();
+          break;
+        case 'priority':
+          const priorityOrder = { high: 3, medium: 2, low: 1 };
+          aValue = priorityOrder[a.priority];
+          bValue = priorityOrder[b.priority];
+          break;
+        case 'progress':
+          aValue = a.progress;
+          bValue = b.progress;
+          break;
+        case 'status':
+          const statusOrder = { 'completed': 4, 'in-progress': 3, 'not-started': 2, 'overdue': 1 };
+          aValue = statusOrder[a.status];
+          bValue = statusOrder[b.status];
+          break;
+        default:
+          return 0;
+      }
+      
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    return filtered;
+  }, [tasks, searchTerm, statusFilter, sortBy, sortOrder]);
 
   // Calculate timeline range based on current view
   const { timelineStart, timelineEnd, timelineColumns } = useMemo(() => {
@@ -165,6 +211,16 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
     setStatusFilter('all');
   };
 
+  // Handle sorting
+  const handleSort = useCallback((newSortBy: typeof sortBy) => {
+    // Determine new sort order
+    const newSortOrder = sortBy === newSortBy ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
+    
+    // Update states
+    setSortBy(newSortBy);
+    setSortOrder(newSortOrder);
+  }, [sortBy, sortOrder]);
+
   // Handle task editing
   const handleEditTask = (task: Task) => {
     setEditingTask(task);
@@ -181,6 +237,8 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
       await onTaskUpdate(taskId, updates);
     }
   };
+
+
 
   // Get status options for filter
   const statusOptions: { value: Task['status'] | 'all', label: string, count: number }[] = [
@@ -310,6 +368,8 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
               )}
             </button>
 
+
+
             {/* Clear Filters */}
             {(searchTerm || statusFilter !== 'all') && (
               <button
@@ -362,10 +422,46 @@ export default function GanttChart({ tasks, teamMembers, onTaskUpdate }: GanttCh
       <div className="flex h-96 overflow-hidden">
         {/* Task List Sidebar */}
         <div className="w-64 bg-gray-50 border-r flex-shrink-0">
-          <div className="h-12 bg-gray-100 border-b flex items-center px-4 font-medium text-gray-700">
-            Tasks ({filteredTasks.length})
+          <div className="h-12 bg-gray-100 border-b flex items-center justify-between px-4">
+            <span className="font-medium text-gray-700">Tasks ({filteredTasks.length})</span>
+            <div className="flex items-center space-x-1">
+              {/* Quick sort buttons */}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleSort('startDate');
+                }}
+                className={`p-1 text-xs rounded hover:bg-gray-200 transition-colors ${
+                  sortBy === 'startDate' ? 'bg-blue-100 text-blue-700' : 'text-gray-500'
+                }`}
+                title="Sort by start date"
+              >
+                Start {sortBy === 'startDate' && (sortOrder === 'asc' ? '↑' : '↓')}
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleSort('endDate');
+                }}
+                className={`p-1 text-xs rounded hover:bg-gray-200 transition-colors ${
+                  sortBy === 'endDate' ? 'bg-blue-100 text-blue-700' : 'text-gray-500'
+                }`}
+                title="Sort by end date"
+              >
+                End {sortBy === 'endDate' && (sortOrder === 'asc' ? '↑' : '↓')}
+              </button>
+            </div>
           </div>
           <div className="overflow-y-auto" style={{ height: 'calc(100% - 3rem)' }}>
+            {/* Sort Info */}
+            {(sortBy === 'startDate' || sortBy === 'endDate') && filteredTasks.length > 0 && (
+              <div className="px-3 py-2 bg-blue-50 border-b text-xs text-blue-700">
+                Sorted by {sortBy === 'startDate' ? 'start date' : 'end date'} ({sortOrder === 'asc' ? 'earliest first' : 'latest first'})
+              </div>
+            )}
+            
             {filteredTasks.length === 0 ? (
               <div className="p-4 text-center text-gray-500">
                 <div className="text-sm">

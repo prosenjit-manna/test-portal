@@ -6,9 +6,10 @@ import GanttChart from '@/components/GanttChart';
 import TeamDashboard from '@/components/TeamDashboard';
 import TaskForm from '@/components/TaskForm';
 import ProjectForm from '@/components/ProjectForm';
+import ProjectManager from '@/components/ProjectManager';
 import DatabaseManager from '@/components/DatabaseManager';
 import TeamManager from '@/components/TeamManager';
-import { Plus, BarChart3, Users, Calendar, Menu, Settings, FolderPlus } from 'lucide-react';
+import { Plus, BarChart3, Users, Calendar, Menu, Settings, FolderPlus, Folder } from 'lucide-react';
 import { selectClasses, buttonClasses } from '@/lib/styles';
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [selectedProject, setSelectedProject] = useState<string>('');
-  const [currentView, setCurrentView] = useState<'gantt' | 'dashboard' | 'settings'>('gantt');
+  const [currentView, setCurrentView] = useState<'gantt' | 'dashboard' | 'projects' | 'settings'>('gantt');
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -132,6 +133,10 @@ export default function Home() {
     }
   };
 
+  const handleProjectUpdate = (updatedProjects: Project[]) => {
+    setProjects(updatedProjects);
+  };
+
   const selectedProjectData = projects.find(p => p.id === selectedProject);
 
   if (loading) {
@@ -195,6 +200,17 @@ export default function Home() {
                   Dashboard
                 </button>
                 <button
+                  onClick={() => setCurrentView('projects')}
+                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none ${
+                    currentView === 'projects'
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <Folder className="h-4 w-4 inline mr-1" />
+                  Projects
+                </button>
+                <button
                   onClick={() => setCurrentView('settings')}
                   className={`px-3 py-1 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none ${
                     currentView === 'settings'
@@ -237,7 +253,25 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {!selectedProject ? (
+        {currentView === 'projects' ? (
+          <ProjectManager
+            projects={projects}
+            teamMembers={teamMembers}
+            selectedProject={selectedProject}
+            onProjectUpdate={handleProjectUpdate}
+            onProjectSelect={setSelectedProject}
+          />
+        ) : currentView === 'settings' ? (
+          <div className="space-y-6">
+            <TeamManager 
+              teamMembers={teamMembers}
+              onTeamMemberChange={fetchData}
+            />
+            <DatabaseManager
+              onDataChange={fetchData}
+            />
+          </div>
+        ) : !selectedProject ? (
           <div className="text-center py-12">
             <BarChart3 className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">No project selected</h3>
@@ -297,17 +331,7 @@ export default function Home() {
                 tasks={tasks}
                 teamMembers={teamMembers}
               />
-            ) : (
-              <div className="space-y-6">
-                <TeamManager 
-                  teamMembers={teamMembers}
-                  onTeamMemberChange={fetchData}
-                />
-                <DatabaseManager
-                  onDataChange={fetchData}
-                />
-              </div>
-            )}
+            ) : null}
           </>
         )}
       </main>

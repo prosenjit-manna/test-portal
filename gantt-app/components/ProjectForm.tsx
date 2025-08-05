@@ -7,18 +7,19 @@ import { inputClasses, textareaClasses, selectClasses, buttonClasses } from '@/l
 
 interface ProjectFormProps {
   teamMembers: TeamMember[];
+  initialData?: Project;
   onSubmit: (project: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>) => void;
   onCancel: () => void;
 }
 
-export default function ProjectForm({ teamMembers, onSubmit, onCancel }: ProjectFormProps) {
+export default function ProjectForm({ teamMembers, initialData, onSubmit, onCancel }: ProjectFormProps) {
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    startDate: '',
-    endDate: '',
-    status: 'active' as Project['status'],
-    teamMembers: [] as string[],
+    name: initialData?.name || '',
+    description: initialData?.description || '',
+    startDate: initialData?.startDate || '',
+    endDate: initialData?.endDate || '',
+    status: (initialData?.status || 'active') as Project['status'],
+    teamMembers: initialData?.teamMembers || [] as string[],
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -60,7 +61,7 @@ export default function ProjectForm({ teamMembers, onSubmit, onCancel }: Project
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold text-gray-900 flex items-center">
             <Plus className="mr-2 h-5 w-5" />
-            Create New Project
+            {initialData ? 'Edit Project' : 'Create New Project'}
           </h2>
           <button
             onClick={onCancel}
@@ -199,7 +200,7 @@ export default function ProjectForm({ teamMembers, onSubmit, onCancel }: Project
               type="submit"
               className={buttonClasses.primary}
             >
-              Create Project
+              {initialData ? 'Update Project' : 'Create Project'}
             </button>
           </div>
         </form>

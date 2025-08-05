@@ -1,0 +1,13 @@
+# GitHub Copilot Use Cases 
+- Project Estimation 
+- Project Doc generate  / Project Scope / User story 
+- User Flow *
+- Gantt chart *
+- Project Test cases 
+- Prototypes - MVP  
+- PR review 
+- Find Bugs - Edge Cases 
+- Unit Testing 
+- E2E test cases 
+- Development 
+    - Schema Generation 

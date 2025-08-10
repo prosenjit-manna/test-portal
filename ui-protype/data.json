@@ -1,0 +1,127 @@
+{
+  "users": [
+    {
+      "id": "zYaJ_y3-_zTM_UuMgwPKd",
+      "email": "demo@example.com",
+      "name": "Demo",
+      "role": "Admin"
+    }
+  ],
+  "projects": [
+    {
+      "id": "6s-RvSKgn66mMl7c_iB6p",
+      "name": "Demo Project",
+      "key": "DEMO",
+      "description": "Sample project",
+      "createdAt": "2025-08-10T10:30:02.073Z"
+    }
+  ],
+  "suites": [
+    {
+      "id": "Cgo2CM5nyziVtwy6LhmST",
+      "projectId": "6s-RvSKgn66mMl7c_iB6p",
+      "name": "Main Suite",
+      "description": "Default suite"
+    }
+  ],
+  "sections": [
+    {
+      "id": "EybuI_SG69HeacXUXrs6h",
+      "suiteId": "Cgo2CM5nyziVtwy6LhmST",
+      "name": "Login",
+      "order": 1
+    }
+  ],
+  "cases": [
+    {
+      "id": "OkDc2jKEvd3WnVGlAO-CK",
+      "suiteId": "Cgo2CM5nyziVtwy6LhmST",
+      "sectionId": "EybuI_SG69HeacXUXrs6h",
+      "title": "User can login",
+      "description": "Valid creds",
+      "preconditions": "User exists",
+      "priority": "P1",
+      "type": "Functional",
+      "tags": [
+        "auth"
+      ],
+      "refs": [],
+      "updatedAt": "2025-08-10T10:30:02.073Z"
+    }
+  ],
+  "case_steps": [
+    {
+      "id": "6vJm2vEZ0jhOxSl8vLYYE",
+      "caseId": "OkDc2jKEvd3WnVGlAO-CK",
+      "index": 1,
+      "action": "Open login page",
+      "expected": "Page loads"
+    },
+    {
+      "id": "y6zJZ5Ru2qMx3Mc-5TRHN",
+      "caseId": "OkDc2jKEvd3WnVGlAO-CK",
+      "index": 2,
+      "action": "Enter valid creds and submit",
+      "expected": "Redirect to dashboard"
+    }
+  ],
+  "runs": [
+    {
+      "id": "0oQHIXqFDpVLjvMS7z8fd",
+      "projectId": "6s-RvSKgn66mMl7c_iB6p",
+      "name": "Smoke 1",
+      "description": "Initial",
+      "status": "draft"
+    }
+  ],
+  "run_cases": [
+    {
+      "id": "wTCijlOSHxI6Yu_F7uu_M",
+      "runId": "0oQHIXqFDpVLjvMS7z8fd",
+      "caseId": "OkDc2jKEvd3WnVGlAO-CK"
+    }
+  ],
+  "results": [
+    {
+      "id": "d7-0xqmCBRcdOiuhHmcWy",
+      "runCaseId": "wTCijlOSHxI6Yu_F7uu_M",
+      "status": "untested",
+      "createdBy": "zYaJ_y3-_zTM_UuMgwPKd",
+      "createdAt": "2025-08-10T10:30:02.073Z"
+    },
+    {
+      "id": "9ea89fff-8368-4fbc-95a4-55ab507adae0",
+      "runCaseId": "wTCijlOSHxI6Yu_F7uu_M",
+      "status": "blocked",
+      "createdBy": "system",
+      "createdAt": "2025-08-10T10:37:06.958Z"
+    },
+    {
+      "id": "80c83966-dd44-4075-bcd4-b9c0a38d5225",
+      "runCaseId": "wTCijlOSHxI6Yu_F7uu_M",
+      "status": "blocked",
+      "createdBy": "system",
+      "createdAt": "2025-08-10T10:37:09.187Z"
+    },
+    {
+      "id": "a920f27e-07de-4653-9236-140316bd961d",
+      "runCaseId": "wTCijlOSHxI6Yu_F7uu_M",
+      "status": "untested",
+      "createdBy": "system",
+      "createdAt": "2025-08-10T10:37:10.979Z"
+    },
+    {
+      "id": "3ba03710-1bbc-4761-819e-4d5380417dc0",
+      "runCaseId": "wTCijlOSHxI6Yu_F7uu_M",
+      "status": "passed",
+      "createdBy": "system",
+      "createdAt": "2025-08-10T10:37:12.116Z"
+    }
+  ],
+  "milestones": [],
+  "plans": [],
+  "plan_runs": [],
+  "audit_logs": [],
+  "api_tokens": [],
+  "webhooks": []
+}

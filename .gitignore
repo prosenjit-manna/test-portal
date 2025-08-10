@@ -1,2 +1,43 @@
-node_modules
-gantt-chart/tsconfig.tsbuildinfo
+############################
+# Root .gitignore for repo #
+############################
+
+# Node / package managers
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Next.js build output (ignore in all apps)
+.next/
+**/.next/
+out/
+
+# TypeScript build info
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# Env files
+.env
+.env.*
+.env*.local
+.vercel
+
+# Coverage / build artifacts
+coverage/
+dist/
+build/
+.turbo/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# App-specific
+# Local LowDB store for the UI prototype
+ui-protype/data.json

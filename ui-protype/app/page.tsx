@@ -30,6 +30,41 @@ export default async function DashboardPage() {
       </section>
 
       <section>
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Projects</h2>
+          <a href="/projects" className="text-sm text-blue-600 hover:underline">View all →</a>
+        </div>
+        <div className="divide-y rounded-lg border bg-white">
+          {projects.map(p => (
+            <div key={p.id} className="p-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <a href={`/projects/${p.id}`} className="font-medium hover:underline">
+                    {p.name} <span className="text-xs text-gray-500">({p.key})</span>
+                  </a>
+                  <div className="text-sm text-gray-600">{p.description}</div>
+                </div>
+                <div className="flex gap-2">
+                  <a 
+                    href={`/projects/${p.id}/repository`}
+                    className="rounded bg-blue-600 px-2 py-1 text-xs text-white hover:bg-blue-700"
+                  >
+                    Repository
+                  </a>
+                  <a 
+                    href={`/projects/${p.id}`}
+                    className="rounded border px-2 py-1 text-xs hover:bg-gray-50"
+                  >
+                    View
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
         <h2 className="mb-2 text-lg font-semibold">Recent Runs</h2>
         <div className="divide-y rounded-lg border bg-white">
           {runs.slice(-5).map(r => (

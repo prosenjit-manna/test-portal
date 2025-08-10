@@ -108,3 +108,88 @@ export async function createWebhook(projectId: string, url: string, events: stri
   await db.write();
   return wh.id;
 }
+
+export async function bulkUpdateCases(caseIds: string[], updates: Partial<Case>) {
+  const db = await dbPromise;
+  for (const id of caseIds) {
+    const c = db.data.cases.find((c) => c.id === id);
+    if (c) {
+      Object.assign(c, updates, { updatedAt: new Date().toISOString() });
+    }
+  }
+  await db.write();
+  return true;
+}
+
+export async function bulkDeleteCases(caseIds: string[]) {
+  const db = await dbPromise;
+  for (const id of caseIds) {
+    await deleteCase(id);
+  }
+  return true;
+}
+
+export async function duplicateCase(caseId: string) {
+  const db = await dbPromise;
+  const original = db.data.cases.find((c) => c.id === caseId);
+  if (!original) return null;
+  
+  const newCase: Case = {
+    ...original,
+    id: nanoid(),
+    title: `${original.title} (Copy)`,
+    updatedAt: new Date().toISOString()
+  };
+  
+  db.data.cases.push(newCase);
+  
+  // Copy steps
+  const steps = db.data.case_steps.filter(s => s.caseId === caseId);
+  for (const step of steps) {
+    const newStep: CaseStep = {
+      ...step,
+      id: nanoid(),
+      caseId: newCase.id
+    };
+    db.data.case_steps.push(newStep);
+  }
+  
+  await db.write();
+  return newCase.id;
+}
+
+export async function deleteCase(caseId: string) {
+  const db = await dbPromise;
+  db.data.case_steps = db.data.case_steps.filter(cs => cs.caseId !== caseId);
+  db.data.run_cases = db.data.run_cases.filter(rc => rc.caseId !== caseId);
+  db.data.results = db.data.results.filter(r => {
+    // remove results linked to deleted run_cases
+    return db.data.run_cases.some(rc => rc.id === r.runCaseId);
+  });
+  db.data.cases = db.data.cases.filter(c => c.id !== caseId);
+  await db.write();
+  return true;
+}
+
+export async function deleteSection(sectionId: string) {
+  const db = await dbPromise;
+  const cases = db.data.cases.filter(c => c.sectionId === sectionId);
+  for (const c of cases) {
+    await deleteCase(c.id);
+  }
+  db.data.sections = db.data.sections.filter(s => s.id !== sectionId);
+  await db.write();
+  return true;
+}
+
+export async function deleteSuite(suiteId: string) {
+  const db = await dbPromise;
+  const sections = db.data.sections.filter(s => s.suiteId === suiteId);
+  for (const s of sections) {
+    await deleteSection(s.id);
+  }
+  db.data.cases = db.data.cases.filter(c => c.suiteId !== suiteId);
+  db.data.suites = db.data.suites.filter(s => s.id !== suiteId);
+  await db.write();
+  return true;
+}

@@ -16,6 +16,9 @@ export default async function CaseDetail({ params }: { params: { id: string } })
         initialDescription={c.description}
         initialPreconditions={c.preconditions}
         initialSteps={steps}
+  initialPriority={c.priority}
+  initialType={c.type}
+  initialTags={c.tags}
       />
     </main>
   );

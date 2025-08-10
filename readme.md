@@ -21,177 +21,84 @@ This repository serves as a **complete blueprint** for leveraging GitHub Copilot
 - **Quality Assurance**: Built-in testing, documentation, and code review processes
 
 ### For Project Managers & Stakeholders
-- **Predictable Delivery**: Proven estimation and planning methodologies
-- **Transparent Progress**: Comprehensive documentation and progress tracking
-- **Risk Mitigation**: Edge case identification and robust testing strategies
+## Open Source Test Management (TestRail Alternative)
 
-## 🛠️ Complete Use Case Coverage
+An open-source test management system for organizing test cases, planning runs, tracking execution, and ingesting automated results — designed to be Docker-first with a React + TypeScript frontend and a Node.js (NestJS) + Prisma + PostgreSQL backend.
 
-### 📋 Project Planning & Management
-- **Project Estimation** - AI-powered effort estimation with accuracy tracking
-- **Scope Documentation** - Automated generation of comprehensive project specs
-- **User Story Creation** - Structured user stories with acceptance criteria
-- **Gantt Chart Generation** - Visual project timelines with dependency mapping
+Updated: 2025-08-10
 
-### 🎨 Design & Architecture
-- **User Flow Design** - Interactive user journey mapping with Mermaid diagrams
-- **System Architecture** - Scalable architecture patterns and diagrams
-- **Database Schema** - Optimized database designs with migrations
-- **API Documentation** - Auto-generated, comprehensive API specs
+• PRD: See prd/readme.md for detailed scope, requirements, data model, and roadmap.
 
-### 💻 Development Excellence
-- **MVP Prototyping** - Rapid prototype development with production-ready foundations
-- **Code Generation** - Multi-language code generation with best practices
-- **Component Libraries** - Reusable, tested component ecosystems
-- **Integration Patterns** - Seamless third-party service integrations
+## Why this project
+- Full-featured, team-friendly alternative to proprietary test management tools
+- Easy to run locally and in small cloud setups
+- Extensible API for CI/CD and automation frameworks
 
-### 🧪 Quality Assurance
-- **Test Case Generation** - Comprehensive test suites with edge case coverage
-- **Unit Testing** - Automated unit test creation with high coverage
-- **E2E Testing** - End-to-end testing scenarios for critical user paths
-- **Performance Testing** - Load testing and optimization strategies
+## MVP feature set (highlights)
+- Projects, suites, sections, cases (with steps, expected results, tags, priority, references)
+- Manual test runs with per-case results, comments, and attachments
+- Plans and milestones for release planning
+- Batch API for automated results ingestion
+- Dashboards and exports (CSV/JSON)
+- Users, roles, permissions; audit log; API tokens; webhooks
 
-### 🔍 Code Review & Maintenance
-- **PR Review Automation** - AI-assisted code review with quality gates
-- **Bug Detection** - Proactive bug identification and resolution
-- **Edge Case Analysis** - Comprehensive edge case identification
-- **Code Refactoring** - Intelligent code improvement suggestions
+## Architecture (high level)
+- Frontend: React + TypeScript (SPA), consumes REST/JSON
+- Backend: Node.js + NestJS, Prisma ORM, PostgreSQL
+- Packaging: Docker images for both services
 
-## 🏗️ Multi-Stack Architecture
-
-```
-📦 github-copilot-development-template
-├── 🚀 webapp/           # React + TypeScript + Vite Frontend
-├── ⚡ backend/          # Node.js + NestJS + Prisma API
-├── 📱 mobile/           # React Native + Expo Cross-platform
-├── 🎨 ui-prototype/     # Design system and prototypes
-├── 📊 gantt-app/        # Next.js project management dashboard
-├── 📚 prd/              # Product requirements and documentation
-├── 📝 meeting-notes/    # Collaborative documentation
-└── 🔧 .github/          # CI/CD workflows and automation
+Mermaid overview:
+```mermaid
+flowchart LR
+	A[Frontend (React TS)] -->|REST/JSON| B[Backend (NestJS)]
+	B -->|Prisma| C[(PostgreSQL)]
+	E[CI/CD] -->|Batch Results API| B
+	B --> D[Webhooks]
 ```
 
-### Technology Stack
+## Repository structure (current and planned)
+```
+backend/        # Backend service (NestJS + Prisma) — scaffolding pending
+frontend/       # React + TypeScript app — scaffolding pending
+prd/            # Product Requirements Document (authoritative spec)
+gantt-app/      # Existing Next.js sample app (not part of test mgmt product)
+meeting-notes/  # Notes and documentation
+mobile/         # Placeholder (not in MVP scope)
+ui-protype/     # UI explorations / design system (optional)
+```
 
-| Category | Technologies |
-|----------|-------------|
-| **Frontend** | React, TypeScript, Next.js, Vite, Tailwind CSS |
-| **Backend** | Node.js, NestJS, Express, Prisma ORM |
-| **Mobile** | React Native, Expo, TypeScript |
-| **Database** | PostgreSQL, MongoDB |
-| **Testing** | Jest, Cypress, Playwright, Appium |
-| **DevOps** | Docker, GitHub Actions, Vercel |
-| **Documentation** | Markdown, Mermaid, Storybook |
+Note: The test management app will live under backend/ and frontend/. The gantt-app is a separate example app kept in the monorepo and not part of this product.
 
-## 🚦 Quick Start Guide
+## Getting started
 
-### Prerequisites
-- Node.js 18+ and npm/yarn
+Prerequisites
 - Docker Desktop
-- VS Code with recommended extensions
-- GitHub Copilot subscription
+- Node.js 18+ (for local dev workflows)
 
-### 1. Clone & Setup
-```bash
-git clone https://github.com/prosenjit-manna/github-copilot-development-template.git
-cd github-copilot-development-template
-```
+Quick start (coming soon)
+- docker-compose.yml will define services: frontend, backend, postgres
+- One command to start both services and a database
 
-### 2. Install Recommended Extensions
-VS Code will automatically prompt you to install recommended extensions, or run:
-```bash
-code --install-extension github.copilot
-code --install-extension github.copilot-chat
-# Additional extensions will be suggested by VS Code
-```
+Local development (planned)
+- Backend: NestJS app with Prisma; Postgres connection via .env
+- Frontend: React + TS app configured to target the backend REST API
 
-### 3. Explore the Examples
-```bash
-# Gantt Project Manager
-cd gantt-app && npm run dev
-```
+## API
+- REST/JSON under /api/v1 (planned)
+- OpenAPI spec will be published under docs/openapi once endpoints stabilize
 
-## 🎓 Learning Paths
+## Roadmap (summary)
+- MVP (0.1): Case management with steps; manual runs/results; dashboards; CSV export; JWT auth + RBAC; audit log; Docker Compose
+- Beta (0.2–0.3): Automated results batch API; webhooks; plans/milestones; imports (CSV + basic TestRail mapping); saved filters/views
+- v1.0: Hardened RBAC, pagination/search at scale, polished UX and accessibility, optional Redis + worker for async jobs
 
-### Beginner Track
-1. Start with `prd/` - Understanding project requirements
-2. Explore `webapp/` - Basic React development with Copilot
-3. Review `meeting-notes/` - Documentation best practices
+See prd/readme.md for the full roadmap and acceptance criteria.
 
-### Intermediate Track
-1. Dive into `backend/` - API development patterns
-2. Study `gantt-app/` - Full-stack application architecture
-3. Practice with test cases and quality assurance
+## Contributing
+We welcome issues and PRs. Please align proposals with the PRD to keep scope focused. For larger changes, open an RFC via an issue first.
 
-### Advanced Track
-1. Master `mobile/` - Cross-platform development
-2. Implement CI/CD workflows
-3. Contribute to the template with new patterns
+## License
+MIT — see LICENSE.
 
-## 📊 Success Metrics
-
-Teams using this template report:
-- **70% faster** initial project setup
-- **50% reduction** in code review time
-- **40% fewer** production bugs
-- **3x faster** onboarding for new developers
-
-## 🤝 Contributing
-
-We welcome contributions! This template grows stronger with community input.
-
-### How to Contribute
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-pattern`)
-3. Implement your improvement with Copilot assistance
-4. Add comprehensive documentation and tests
-5. Submit a pull request
-
-### Contribution Areas
-- New development patterns
-- Additional tech stack examples
-- Improved documentation
-- Performance optimizations
-- Security enhancements
-
-## 📚 Documentation
-
-- [📖 Complete Documentation](./docs/README.md)
-- [🔧 Setup Guide](./docs/setup.md)
-- [💡 Best Practices](./docs/best-practices.md)
-- [🧪 Testing Strategies](./docs/testing.md)
-- [🚀 Deployment Guide](./docs/deployment.md)
-
-## 🛡️ Security & Best Practices
-
-This template includes:
-- ✅ Security-first development patterns
-- ✅ OWASP compliance guidelines
-- ✅ Automated security scanning
-- ✅ Environment configuration best practices
-- ✅ Dependency vulnerability monitoring
-
-
-## 🌟 Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=prosenjit-manna/github-copilot-development-template&type=Date)](https://star-history.com/#prosenjit-manna/github-copilot-development-template&Date)
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- GitHub Copilot team for the amazing AI assistance
-- Open source community for inspiration and contributions
-- All developers who have contributed to making this template better
-
----
-
-<div align="center">
-
-**⭐ Star this repository if it helps your development workflow!**
-
-[Report Bug](https://github.com/prosenjit-manna/github-copilot-development-template/issues) • [Request Feature](https://github.com/prosenjit-manna/github-copilot-development-template/issues) • [Contribute](CONTRIBUTING.md)
-
-</div> 
+## Acknowledgments
+Thanks to the open-source testing community for inspiration and patterns.

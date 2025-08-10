@@ -1,0 +1,39 @@
+{
+  "recommendations": [
+    // Flowchart and Diagramming
+    "bierner.markdown-mermaid",
+    "vstirbu.vscode-mermaid-preview",
+    
+    // Code Quality and Linting
+    "dbaeumer.vscode-eslint",
+    "streetsidesoftware.code-spell-checker",
+    
+    // Environment and Configuration
+    "mikestead.dotenv",
+    
+    // Docker Support
+    "ms-azuretools.vscode-docker",
+    
+    // Git Tools
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    
+    // GitHub Integration
+    "github.copilot",
+    "github.copilot-chat",
+    "github.vscode-pull-request-github",
+    
+    // Markdown Support
+    "yzhang.markdown-all-in-one",
+    
+    // Database and ORM
+    "prisma.prisma",
+    
+    // Additional Useful Extensions
+    "ms-vscode.vscode-typescript-next",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-json"
+  ],
+  "unwantedRecommendations": []
+}
